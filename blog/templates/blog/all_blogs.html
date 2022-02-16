@@ -9,39 +9,49 @@
 <body>
 {% block content %}
 
-    My Blogs
+    <h1 id="blogtitle" class="font-weight-bold text-center">Blog</h1>
+    <h3 class="text-center mb-5">Timofey has written {{ blogs.count }} blog{{ blogs.count|pluralize }}</h3>
 
-    <h2>Timofey has written {{ blogs.count }} blog{{ blogs.count|pluralize}}</h2>
 
     {% for blog in page_obj %}
 
-    <a href="{% url 'blog:detail' blog.id %}"><h2>{{ blog.title }}</h2></a>
-    <h5>{{ blog.date|date:'M d Y'|upper }}</h5>
-    <p>{{ blog.description|safe|truncatechars:100 }}</p>
+        <div class="row justify-content-center my-3">
+          <div class="col-md-10">
+            <a href="{% url 'blog:detail' blog.id %}">
+              <h2>{{ blog.title }}</h2>
+            </a>
+            <h5 class="text-muted">{{ blog.date|date:'M d Y'|upper }}</h5>
+            <h4>{{ blog.description|striptags|truncatechars:100 }}</h4>
+          </div>
+        </div>
 
     {% endfor %}
 
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
+    {% if blogs %}
+    <div style="margin-left: auto; margin-right: auto; width: 6em">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
 
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
 
-        {% for p in page_obj.paginator.page_range %}
-            <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
-        {% endfor %}
+            {% for p in page_obj.paginator.page_range %}
+                <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+            {% endfor %}
 
-        <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
 
-      </ul>
-    </nav>
+          </ul>
+        </nav>
+    </div>
+{% endif %}
 
 {% endblock %}
 </body>
