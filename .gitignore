@@ -1,3 +1,5 @@
 .env
-.idea/*
+__pycache__/
+.idea/
 media/portfolio/*
+db.sqlite3
